@@ -20,4 +20,3 @@ Since ingest and processing time are mutable they are NOT deterministic. Recompu
 Being immutable and deterministic are generally favorable. Consequently developers often chose to use event time as Flink's notion of time.
 
 Using event time as Flink's notion of time has a disadvantage. It creates the possibility of Flink ingesting events that are out of order with respect to event time.
-
