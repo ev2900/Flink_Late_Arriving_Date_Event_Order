@@ -17,34 +17,7 @@ Since event time and storage time are immutable they are also deterministic. Rec
 
 Since ingest and processing time are mutable they are NOT deterministic. Recomputing calculations that are dependent on ingest or processing time may or may not produce the same results each time you recompute.
 
-Being immutable and deterministic are generaly generally favorable in stream data processing. Consequently developers often chose to use event time as Flink's notion of time.
+Being immutable and deterministic are generally favorable. Consequently developers often chose to use event time as Flink's notion of time.
 
 Using event time as Flink's notion of time has a disadvantage. It creates the possibility of Flink ingesting events that are out of order with respect to event time.
 
-
-
-
---
-
-When we query data in Flink we can ev
-
-Often we use event time as our notion of time. Using event time has the advantages of being deterministic and immutable. However using event time also has the disadvantage of introducing the possibility of out of order event streams.
-
-To handle out of order events
-
-To handle out of order event streams we first need to consider if the results of the query we are running in Flink can be determined by only looking at the single event or if it requires the context of the events before it and/or after it. 
-
-Example - If we are running a query that is filtering on a given value in a message. 
-
-It does not matter when an event arrives with respect to its event time.
-
-If we are calculating 
-
-Watermarks
-
-
-Windows
-1. Tumbling Window
-2. Sliding Window
-3. Session Window
-4. Global Window
