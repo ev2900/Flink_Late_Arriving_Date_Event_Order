@@ -4,10 +4,14 @@ How can we handle out of order data in Apache Flink? Let us start by establishin
 
 Flink has four notions of time
 
-1. Event Time - timestamp created by the edge device producing the event
-2. Storage Time - timestamp added to the event when it is ingested by Kinesis or Kafka
-3. Ingestion Time - timestamp when the event enters Flink  
-4. Processing Time - timestamp when Flink processes the event respective to a given Flink operation
+| Notion of Time  | Description                                                                      |
+| ----------------|----------------------------------------------------------------------------------|
+| Event Time      | timestamp created by the edge device producing the event                         |
+| Storage Time    | timestamp added to the event when it is ingested by Kinesis or Kafka             |
+| Ingestion Time  | timestamp when the event enters Flink                                            | 
+| Processing Time | timestamp when Flink processes the event respective to a given Flink operation   |
+
+When choicing a notion of time a few key considerations 
 
 Event time and storage times are immutable to Flink. If you reprocess the same event multiple times the event time and storage time value(s) never change. 
 
