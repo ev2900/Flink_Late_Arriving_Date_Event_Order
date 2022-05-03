@@ -1,14 +1,18 @@
 # Flink Out of Order Data
 
-How can we handle out of order data in Apache Flink? 
+How can we handle out of order data in Apache Flink? Lets start by establishing a common background on the different notions of time. 
 
-Lets start by establishing a common background on the different notions of time. 
+Flink has 4 notions of time
 
-Flink has 4 possible notions of time
 1. Event Time - timestamp recorded by the edge device producing the event
-2. Storage Time - timestamp added to the message by Kinesis or Kafka when it is ingested
-3. Ingestion Time - timestamp when Flink ingests an event  
-4. Processing Time - timestamp when Flink processes an event
+2. Storage Time - timestamp added to the event when it is ingested by Kinesis or Kafka
+3. Ingestion Time - timestamp when Flink ingests the event  
+4. Processing Time - timestamp when Flink processes the an event
+
+
+--
+
+When we query data in Flink we can ev
 
 Often we use event time as our notion of time. Using event time has the advantages of being deterministic and immutable. However using event time also has the disadvantage of introducing the possibility of out of order event streams.
 
