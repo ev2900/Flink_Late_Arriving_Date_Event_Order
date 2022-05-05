@@ -1,10 +1,12 @@
 # Flink Out of Order Data
 
-How can we handle out of order data in Apache Flink? 
+How can we handle late arriving data in Flink and what are the implications on message order?
 
 ## Background
 
-Let us start by establishing a common background on the different notions of time. 
+We need to understand a few key concepts before we can have a meaningful disscussion on late arriving data and message/event order.
+
+### Notions of Time
 
 Flink has four notions of time
 
@@ -23,10 +25,6 @@ When choicing a notion of time a few key considerations
 
 Being immutable and deterministic are generally favorable. Consequently developers often chose to use event time as Flink's notion of time.
 
-Using event time as Flink's notion of time has a disadvantage. It creates the possibility of Flink ingesting events that are out of order with respect to event time. 
+### Water Marks
 
-How can we handle out of order events stream?
-
-### Out of Order
-
-
+Understanding the different notions of time is building towards a disscussion on how Flink determines if an event is considered late or on time. Events labeled as late may be processed differently depending on types of queries you are using in Flink.
