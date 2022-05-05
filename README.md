@@ -27,4 +27,14 @@ Being immutable and deterministic are generally favorable. Consequently develope
 
 ### Water Marks
 
-Understanding the different notions of time is building towards a disscussion on how Flink determines if an event is considered late or on time. Events labeled as late may be processed differently depending on types of queries you are using in Flink.
+How does Flink determine if an event is on time or late? 
+
+Answer
+* Flink compares the timestamp in the event (assuming we are using event time as our notion of time) to the most current watermark.
+* If the timestamp in the event is less than the water mark in the event is labeled as late.
+* If the timestamp in the event is greater than the watermark the event is consider on time.
+
+Flink is comparing messages to this watermark to determine if they are late or not. What is a watermark?
+
+Answer
+* A watermark is a time stamp 
