@@ -31,10 +31,10 @@ How does Flink determine if an event is on time or late?
 
 Answer
 * Flink compares the timestamp in the event (assuming we are using event time as our notion of time) to the most current watermark it keeps track of.
-* If the timestamp in the event is less than the water mark in the event is labeled as late.
-* If the timestamp in the event is greater than the watermark the event is consider on time.
+  * If the timestamp in the event < the water mark = event is labeled as late.
+  * If the timestamp in the event > the watermark = event is consider on time.
 
-Flink is comparing messages to this watermark to determine if they are late or not. What is a watermark?
+Flink is comparing messages to this watermark to determine if they are late or not. So what is a watermark?
 
 Answer
 * A watermark is a time stamp 
