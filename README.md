@@ -35,4 +35,4 @@ Flink determines if an event is late by comparing the timestamp in the event (as
 
 Since Flink is comparing messages to this watermark to determine if they are late or not; what is a watermark?
 
-A watermark is a time stamp. More specificlly  
+A watermark is a time stamp. More specificlly   
