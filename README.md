@@ -1,4 +1,4 @@
-# Flink Late Arriving / Out of Order Data
+# Flink Late Arriving / Out of Order Events
 
 How can we handle late arriving data in Flink and what are the implications on message order?
 
@@ -35,4 +35,6 @@ Flink determines if an event is late by comparing the timestamp in the event (as
 
 Since Flink is comparing messages to this watermark to determine if they are late or not; what is a watermark?
 
-A watermark is a time stamp. More specificlly it is a time stamp that Flink tracks internally to know upto what point in time it has processed messages for. Watermark is a way of telling Flink how far it is, in the event time. Another way to think about is when Flink receives a watermark, it understands (assumes) that it is not going to see any message older than that watermark time stamp. If it does see a msess older then the watermark it labels the event as late.
+A watermark is a time stamp. More specificlly it is a time stamp that Flink tracks internally to know up to what point in time it has processed events for. Watermark is a way of telling Flink how far it is, in the event time. When Flink receives a watermark, it understands (assumes) that it is not going to see any message older than that watermark time stamp. If it does see an event older then the watermark it labels the event as late.
+
+### Out of Order Events
