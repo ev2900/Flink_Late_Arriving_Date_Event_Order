@@ -25,7 +25,7 @@ When choicing a notion of time a few key considerations
 
 Being immutable and deterministic are generally favorable. Consequently developers often chose to use event time as Flink's notion of time.
 
-### Water Marks
+### Watermarks
 
 How does Flink determine if an event is on time or late? 
 
@@ -38,3 +38,8 @@ Since Flink is comparing messages to this watermark to determine if they are lat
 A watermark is a time stamp. More specificlly it is a time stamp that Flink tracks internally to know up to what point in time it has processed events for. Watermark is a way of telling Flink how far it is, in the event time. When Flink receives a watermark, it understands (assumes) that it is not going to see any message older than that watermark time stamp. If it does see an event older then the watermark it labels the event as late.
 
 ## Implementation
+
+### Watermark with a fixed offset
+To
+
+
