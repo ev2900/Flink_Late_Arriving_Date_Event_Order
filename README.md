@@ -1,4 +1,4 @@
-# Flink Out of Order Data
+# Flink Late Arriving / Out of Order Data
 
 How can we handle late arriving data in Flink and what are the implications on message order?
 
