@@ -50,8 +50,6 @@ In the example below we use the ```pickup_datetime``` feild from the event as th
 Example Flink SQL code
 
 ```
-%flink.ssql
-
 CREATE TABLE yellow_cab (
    `VendorID` INT,
    `pickup_datetime` TIMESTAMP(3),
