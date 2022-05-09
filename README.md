@@ -39,7 +39,28 @@ A watermark is a time stamp. More specificlly it is a time stamp that Flink trac
 
 ## Implementation
 
-### Watermark with a fixed offset
-To
- 
+### Watermarks
+Since Flink uses the watermark timestamp as a point of comparision to determine if a message should be labeled as late how do we implement a watermark based on event time? 
+
+
+
+```
+%flink.ssql
+
+CREATE TABLE yellow_cab (
+   `VendorID` INT,
+   `pickup_datetime` TIMESTAMP(3),
+   `dropoff_datetime` TIMESTAMP(3),
+   `passenger_count` INT,
+   `trip_distance` FLOAT,
+    WATERMARK FOR pickup_datetime AS pickup_datetime - INTERVAL '5' SECOND
+) 
+ WITH (
+   'connector' = 'kinesis',
+   'stream' = 'yellow-cab-trip',
+   'aws.region' = 'us-east-1',
+   'scan.stream.initpos' = 'LATEST',
+   'format' = 'json'
+)
+```
 
