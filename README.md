@@ -41,5 +41,5 @@ A watermark is a time stamp. More specificlly it is a time stamp that Flink trac
 
 ### Watermark with a fixed offset
 To
-
+ 
 
