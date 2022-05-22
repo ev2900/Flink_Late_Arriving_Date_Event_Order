@@ -48,7 +48,7 @@ When using the [SQL API](https://nightlies.apache.org/flink/flink-docs-release-1
 In the example below we use the ```pickup_datetime``` feild from the event as the watermark. We offset the watermark by 5 seconds via. ```pickup_datetime - INTERVAL '5' SECOND``` this sets the watermark value as 5 second earlier then the value of the ```trip_distance``` field. This allows events to arrive upto 5 seconds *late* without being labeled late by Flink. However as disscussed in the background this does introduce the possibility of out of order data within the 5 second offset.
 
 Example Flink SQL code
-
+ 
 ```
 CREATE TABLE yellow_cab (
    `VendorID` INT,
