@@ -35,36 +35,51 @@ Flink determines if an event is late by comparing the timestamp in the event (as
 
 Since Flink is comparing messages to this watermark to determine if they are late or not; what is a watermark?
 
-A watermark is a time stamp. More specificlly it is a time stamp that Flink tracks internally to know up to what point in time it has processed events for. Watermark is a way of telling Flink how far it is, in the event time. When Flink receives a watermark, it understands (assumes) that it is not going to see any message older than that watermark time stamp. If it does see an event older then the watermark it labels the event as late.
+A watermark is a time stamp. More specificlly it is a time stamp that Flink tracks internally to know up to what point in time it has processed events for. Watermark is a way of telling Flink how far it is in processing in terms of event time. When Flink receives a watermark, it understands (assumes) that it is not going to see any message older than that watermark time stamp. If it does see an event older then the watermark it labels the event as late.
+
+### Late Events (ie. labeled late by Flink)
+
+What happens when Flink labels an event as late?
+
+*This section is under construction*
 
 ## Implementation
 
+### Table API & SQL
+
 Since Flink uses the watermark timestamp as a point of comparision to determine if a message should be labeled as late, what does an implementation of a common watermark strategy on event time look like? 
 
-The implementation examples will assume that you are using the SQL APIs for Flink. They will assume we are working with a subset of the NYC Taxi cab data. 
+The implementation examples will assume that you are using the SQL APIs for Flink.
 
 When using the [SQL API](https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/dev/table/sql/overview/) for Flink we set the definition for the watermark when we define the table. 
 
-In the example below we use the ```pickup_datetime``` feild from the event as the watermark. We offset the watermark by 5 seconds via. ```pickup_datetime - INTERVAL '5' SECOND``` this sets the watermark value as 5 second earlier then the value of the ```trip_distance``` field. This allows events to arrive upto 5 seconds *late* without being labeled late by Flink. However as disscussed in the background this does introduce the possibility of out of order data within the 5 second offset.
+#### Create a Table with Event Time as the Notion of Time and 5 second Offset Watermark
 
-Example Flink SQL code
+In the example below we use the ```event_timestamp``` feild from the event as the watermark. We offset the watermark by 5 seconds via. ```event_timestamp - INTERVAL '5' SECOND``` this sets the watermark value as 5 second earlier then the value of the ```event_timestamp``` field. This allows events to arrive upto 5 seconds *late* without being labeled late by Flink. However as disscussed in the background this does introduce the possibility of out of order event within the 5 second offset.
+
+Example Flink SQL code (designed to be run via. KDA Studio Zeppelin notebook on AWS)
  
 ```
-CREATE TABLE yellow_cab (
-   `VendorID` INT,
-   `pickup_datetime` TIMESTAMP(3),
-   `dropoff_datetime` TIMESTAMP(3),
-   `passenger_count` INT,
-   `trip_distance` FLOAT,
-    WATERMARK FOR pickup_datetime AS pickup_datetime - INTERVAL '5' SECOND
-) 
+%flink.ssql
+
+DROP TABLE IF EXISTS late_data;
+
+CREATE TABLE late_data (
+   `event_timestamp` TIMESTAMP(3),
+   `value1` INT,
+   `kinesis_arrival_time` TIMESTAMP(3) METADATA FROM 'timestamp' VIRTUAL,
+   `kinesis_shard_id` VARCHAR(128) NOT NULL METADATA FROM 'shard-id' VIRTUAL,
+   WATERMARK FOR `event_timestamp` AS `event_timestamp` - INTERVAL '5' SECOND
+)
  WITH (
    'connector' = 'kinesis',
-   'stream' = 'yellow-cab-trip',
+   'stream' = 'late-data',
    'aws.region' = 'us-east-1',
    'scan.stream.initpos' = 'LATEST',
    'format' = 'json'
-)
+);
 ```
 
-If we were to set the watermark for this table with out the 5 second offset. Then data won't be able to arrive within the 5 second grace period and not be labeled as late.
+If we were to set the watermark for this table with out the ```- INTERVAL '5' SECOND```, we would remove the possibility of having out of order data but at the cost of events not being able to arrive late with out being labeled as late.
+
+
