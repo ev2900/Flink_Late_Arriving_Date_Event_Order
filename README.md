@@ -39,7 +39,9 @@ A watermark is a time stamp. More specificlly it is a time stamp that Flink trac
 
 ### Late Events (ie. labeled late by Flink)
 
-What happens when Flink labels an event as late?
+When Flink labels an event as late, how does it impact downstream calcualtions / logic?  
+
+This depends on 
 
 *This section is under construction*
 
@@ -81,6 +83,4 @@ CREATE TABLE late_data (
 
 If we were to set the watermark for this table without the ```- INTERVAL '5' SECOND```, we would remove the possibility of having out of order events but at the cost of events not being able to arrive late without being labeled as late.
 
-To visualize this example and these concepts in action with sample events view the [Helpful Animations.pptx](https://github.com/ev2900/Flink_Late_Arriving_Date_Event_Order/blob/main/Helpful%20Animations/Helpful%20Animations.pptx) presentation. View the presentation in presentation mode and follow the animations step by step. 
-
-#### Use an ORDER BY (window function) to 
+To visualize this example and these concepts in action with sample events view the [Helpful Animations.pptx](https://github.com/ev2900/Flink_Late_Arriving_Date_Event_Order/blob/main/Helpful%20Animations/Helpful%20Animations.pptx) presentation. View the presentation in presentation mode and follow the animations step by step.
