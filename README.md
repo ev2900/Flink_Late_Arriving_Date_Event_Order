@@ -67,8 +67,6 @@ DROP TABLE IF EXISTS late_data;
 CREATE TABLE late_data (
    `event_timestamp` TIMESTAMP(3),
    `value1` INT,
-   `kinesis_arrival_time` TIMESTAMP(3) METADATA FROM 'timestamp' VIRTUAL,
-   `kinesis_shard_id` VARCHAR(128) NOT NULL METADATA FROM 'shard-id' VIRTUAL,
    WATERMARK FOR `event_timestamp` AS `event_timestamp` - INTERVAL '5' SECOND
 )
  WITH (
