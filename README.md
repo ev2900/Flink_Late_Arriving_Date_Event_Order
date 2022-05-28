@@ -78,6 +78,9 @@ CREATE TABLE late_data (
 );
 ```
 
-If we were to set the watermark for this table with out the ```- INTERVAL '5' SECOND```, we would remove the possibility of having out of order events but at the cost of events not being able to arrive late with out being labeled as late.
 
+If we were to set the watermark for this table without the ```- INTERVAL '5' SECOND```, we would remove the possibility of having out of order events but at the cost of events not being able to arrive late without being labeled as late.
 
+To visualize this example and these concepts in action with sample events view the [Helpful Animations.pptx](https://github.com/ev2900/Flink_Late_Arriving_Date_Event_Order/blob/main/Helpful%20Animations/Helpful%20Animations.pptx) presentation. View the presentation in presentation mode and follow the animations step by step. 
+
+#### Use an ORDER BY (window function) to 
