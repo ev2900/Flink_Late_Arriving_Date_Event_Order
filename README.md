@@ -78,6 +78,6 @@ CREATE TABLE late_data (
 );
 ```
 
-If we were to set the watermark for this table with out the ```- INTERVAL '5' SECOND```, we would remove the possibility of having out of order data but at the cost of events not being able to arrive late with out being labeled as late.
+If we were to set the watermark for this table with out the ```- INTERVAL '5' SECOND```, we would remove the possibility of having out of order events but at the cost of events not being able to arrive late with out being labeled as late.
 
 
