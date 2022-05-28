@@ -39,9 +39,11 @@ A watermark is a time stamp. More specificlly it is a time stamp that Flink trac
 
 ### Late Events (ie. labeled late by Flink)
 
-When Flink labels an event as late, how does it impact downstream calcualtions / logic?  
+When Flink labels an event as late, how does it impact the downstream operations in my Flink application?  
 
-This depends on 
+This depends on what your Flink application is doing. Some operations in Flink are sensitive to late data. Example late data will not be included when calculating a result (average, sum, count ...) in certain scenarios. 
+
+Other operations in Flink are not sensitive to late data and will produce the same output regardless of if data is labeled as late or not. 
 
 *This section is under construction*
 
