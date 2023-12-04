@@ -1,6 +1,6 @@
 # Flink Late Arriving / Out of Order Events
 
-<img width="85" alt="map-user" src="https://img.shields.io/badge/views-0000-green"> <img width="125" alt="map-user" src="https://img.shields.io/badge/unique visits-0000-green">
+<img width="85" alt="map-user" src="https://img.shields.io/badge/views-068-green"> <img width="125" alt="map-user" src="https://img.shields.io/badge/unique visits-0000-green">
 
 How can we handle late arriving data in Flink and what are the implications on message order?
 
@@ -16,11 +16,11 @@ Flink has four notions of time
 | ----------------|----------------------------------------------------------------------------------|
 | Event Time      | timestamp created by the edge device producing the event                         |
 | Storage Time    | timestamp added to the event when it is ingested by Kinesis or Kafka             |
-| Ingestion Time  | timestamp when the event enters Flink                                            | 
+| Ingestion Time  | timestamp when the event enters Flink                                            |
 | Processing Time | timestamp when Flink processes the event respective to a given Flink operation   |
 
-When choicing a notion of time a few key considerations 
-* Event time and storage times are immutable to Flink. If you reprocess the same event multiple times the event time and storage time value(s) never change. 
+When choicing a notion of time a few key considerations
+* Event time and storage times are immutable to Flink. If you reprocess the same event multiple times the event time and storage time value(s) never change.
 * Ingest and processing times are mutable to Flink. If you reprocess the same event multiple times you will get different ingest and processing time value(s) each time you reprocess.
 * Since event time and storage time are immutable they are also deterministic. Recomputing calculations that are dependent on event time or storage time will produce the same results each time you reprocess.
 * Since ingest and processing time are mutable they are NOT deterministic. Recomputing calculations that are dependent on ingest or processing time may or may not produce the same results each time you recompute.
@@ -29,7 +29,7 @@ Being immutable and deterministic are generally favorable. Consequently develope
 
 ### Watermarks
 
-How does Flink determine if an event is on time or late? 
+How does Flink determine if an event is on time or late?
 
 Flink determines if an event is late by comparing the timestamp in the event (assuming we are using event time as our notion of time) to the most current watermark it keeps track of.
 * If the timestamp in the event < the water mark = event is labeled as late.
@@ -41,11 +41,11 @@ A watermark is a time stamp. More specificlly it is a time stamp that Flink trac
 
 ### Late Events (ie. labeled late by Flink)
 
-When Flink labels an event as late, how does it impact the downstream operations in my Flink application?  
+When Flink labels an event as late, how does it impact the downstream operations in my Flink application?
 
-This depends on what your Flink application is doing. Some operations in Flink are sensitive to late data. Example late data will not be included when calculating a result (average, sum, count ...) in certain scenarios. 
+This depends on what your Flink application is doing. Some operations in Flink are sensitive to late data. Example late data will not be included when calculating a result (average, sum, count ...) in certain scenarios.
 
-Other operations in Flink are not sensitive to late data and will produce the same output regardless of if data is labeled as late or not. 
+Other operations in Flink are not sensitive to late data and will produce the same output regardless of if data is labeled as late or not.
 
 *This section is under construction*
 
@@ -53,18 +53,18 @@ Other operations in Flink are not sensitive to late data and will produce the sa
 
 ### Table API & SQL
 
-Since Flink uses the watermark timestamp as a point of comparision to determine if a message should be labeled as late, what does an implementation of a common watermark strategy on event time look like? 
+Since Flink uses the watermark timestamp as a point of comparision to determine if a message should be labeled as late, what does an implementation of a common watermark strategy on event time look like?
 
 The implementation examples will assume that you are using the SQL APIs for Flink.
 
-When using the [SQL API](https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/dev/table/sql/overview/) for Flink we set the definition for the watermark when we define the table. 
+When using the [SQL API](https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/dev/table/sql/overview/) for Flink we set the definition for the watermark when we define the table.
 
 #### Create a Table with Event Time as the Notion of Time and 5 second Offset Watermark
 
 In the example below we use the ```event_timestamp``` feild from the event as the watermark. We offset the watermark by 5 seconds via. ```event_timestamp - INTERVAL '5' SECOND``` this sets the watermark value as 5 second earlier then the value of the ```event_timestamp``` field. This allows events to arrive upto 5 seconds *late* without being labeled late by Flink. However as disscussed in the background this does introduce the possibility of out of order event within the 5 second offset.
 
 Example Flink SQL code (designed to be run via. KDA Studio Zeppelin notebook on AWS)
- 
+
 ```
 %flink.ssql
 
