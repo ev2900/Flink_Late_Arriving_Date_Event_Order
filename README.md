@@ -1,6 +1,6 @@
 # Flink Late Arriving / Out of Order Events
 
-<img width="85" alt="map-user" src="https://img.shields.io/badge/views-480-green"> <img width="125" alt="map-user" src="https://img.shields.io/badge/unique visits-175-green">
+<img width="85" alt="map-user" src="https://img.shields.io/badge/views-512-green"> <img width="125" alt="map-user" src="https://img.shields.io/badge/unique visits-175-green">
 
 How can we handle late arriving data in Flink and what are the implications on message order?
 
